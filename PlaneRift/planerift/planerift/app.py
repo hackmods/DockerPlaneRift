@@ -79,8 +79,8 @@ def index():
                 result.card = random.randint(1,40)
                 result.turn += 1
                 db.session.commit()
-            turn = result.turn
-            card = result.card
+        turn = result.turn
+        card = result.card
         card_count = redis_store.get('card_count')        
         return render_template('layout.html', card_count=card_count, code=code, turn=turn, card=card)
 
