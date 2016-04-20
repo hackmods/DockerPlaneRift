@@ -1,0 +1,29 @@
+postgres:
+  image: postgres:9.4.5
+  environment:
+    POSTGRES_USER: planerift
+    POSTGRES_PASSWORD: M@g1k
+  ports:
+    - '5432:5432'
+  volumes:
+    - ~/.docker-volumes/planerift/postgresql/data:/var/lib/postgresql/data
+
+redis:
+  image: redis:2.8.22
+  ports:
+    - '6379:6379'
+  volumes:
+    - ~/.docker-volumes/planerift/redis/data:/var/lib/redis/data
+
+planerift:
+  build: .
+  command: gunicorn -b 0.0.0.0:8001 --reload --access-logfile - "planerift.app:create_app()"
+  environment:
+    PYTHONUNBUFFERED: true
+  links:
+    - postgres
+    - redis
+  volumes:
+    - .:/planerift
+  ports:
+    - '8001:8001'
