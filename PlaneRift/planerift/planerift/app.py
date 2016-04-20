@@ -1,5 +1,6 @@
 import logging
 import random
+import string
 
 from flask import Blueprint, Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -36,7 +37,6 @@ def create_app():
 
     return app
 
-
 @page.route('/')
 def index():
     """
@@ -44,9 +44,9 @@ def index():
 
     :return: Flask response
     """
-    turn = 0;
-    card = 0;
-    code = "zxcv";
+    turn = 0
+    card = 0
+    code = None
 
     """
     if request.args.get('code'):
@@ -58,40 +58,31 @@ def index():
         code = request.args.get('code')
 
     if code is None:
-        msg = ''
-        card_count = redis_store.get('card_count')
-        if card_count is None:
-            card_count = 0
+        chars=string.ascii_uppercase + string.digits
+        code= ''.join(random.sample(chars*6, 6))
+        return render_template('select.html', code=code)
     else:
-        if db.session.query(PlaneRift).filter_by(code=code).limit(1) is None:
+        if db.session.query(PlaneRift).filter_by(code=code).first() is None:
             planerift = PlaneRift(code=code)
             db.session.add(planerift)
             db.session.commit()
-
-        if db.session.query(PlaneRift).filter_by(code=code).limit(1).scalar().card is None:
-            msg = ''
+        
+        result=db.session.query(PlaneRift).filter_by(code=code).first() 
+        if result.turn is None:
+            result.card = random.randint(1,40)
+            result.turn = 1
+            db.session.commit()
+            db.session.query(PlaneRift).filter_by(code=code).first() 
         else:
-            msg = db.session.query(PlaneRift).filter_by(code=code).limit(1).scalar().card
-
-            result=db.session.query(PlaneRift).filter_by(code=code).first()
-            
-            card_count = redis_store.incr('card_count')
-
-            if result.turn < 1:
-                result.turn = 0
-            else:
-                result.turn += 1
-                turn = result.turn
-
-            if result.card < 1:
-                result.card = 0
-            else:
+            if request.args.get('next'):
+                card_count = redis_store.incr('card_count')
                 result.card = random.randint(1,40)
-                card = result.card
-
-        db.session.commit()
-
-    return render_template('layout.html', message=msg, card_count=card_count, code=code, turn=turn, card=card)
+                result.turn += 1
+                db.session.commit()
+            turn = result.turn
+            card = result.card
+        card_count = redis_store.get('card_count')        
+        return render_template('layout.html', card_count=card_count, code=code, turn=turn, card=card)
 
 
 @page.route('/seed')

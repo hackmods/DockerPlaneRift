@@ -13,13 +13,10 @@
      <div class="large-8 medium-10 small-12 columns small-centered">
 		<main class="container">
 		<!--  <h3><i>{{ code}}  {{turn}}  {{ card }}</i></h3>-->
-		  <img src="{{ url_for('static', filename='img/originalCard/' + card|string  + '.jpg') }}"  alt="PlaneChase Card" class="card"/> 
-		  <h3><i>PlaneChase count: {{turn}}</i></h3>
-		  <a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>
-		  <!--<a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>-->
-		  <!--<a class="btn" href="{{ url_for('page.index', code="zxcv",next=True) }}">Click to change</a>-->
-		  <br>
-		  <p>PlaneChase cards has been changed {{ card_count }} times</p>
+		<br>
+		<br>
+		<h3><i>Game Code:  {{code}}</i></h3>
+		  <a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to start</a>
 		</main>
 	</div>
 </div>
