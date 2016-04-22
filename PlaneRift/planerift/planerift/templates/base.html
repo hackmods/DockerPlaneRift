@@ -13,8 +13,8 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}"> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}"> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}"> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}"> 
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}"> 
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -71,16 +71,24 @@
             </div>
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                   
-                        <h3><i>Game Code:  {{code}}</i></h3>
-                        <a class="btn btn-lg btn-outline" href="{{ url_for('page.index', code=code,next=True) }}"><i class="fa fa-download"></i> Click to start</a>              
+                    <main class="container">
+                       <!--  <h3><i>{{ code}}  {{turn}}  {{ card }}</i></h3>-->
+                      <img src="{{ url_for('static', filename='img/originalCard/' + card|string  + '.jpg') }}"  alt="PlaneChase Card" class="card"/> 
+                      <h3><i>PlaneChase count: {{turn}}</i></h3>
+                      <a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>
+                      <!--<a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>-->
+                      <!--<a class="btn" href="{{ url_for('page.index', code="zxcv",next=True) }}">Click to change</a>-->
+                      <br>
+                      <p>PlaneChase cards has been changed {{ card_count }} times</p>
+                    </main>
+				 
                 </div>
             </div>
         </div>
      
     </header>
 
-        <!-- About Section class="success"-->
+	    <!-- About Section class="success"-->
     <section id="rules">
         <div class="container">
             <div class="row">
@@ -89,31 +97,31 @@
                     <hr class="primary">
                 </div>
             </div>
-             <div class="row">
+			 <div class="row">
                 <div class="col-lg-8 col-md-10 col-sm-12 text-center col-lg-offset-2 col-md-offset-1">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                        <h3>How to play</h3>
-                            <p>On your turn, roll the die.<br> One may role again <br>
-                            Cost is one extra mana per roll:<br>
-                            <h4>cost = rolls - 1<h4><br>
-                        </p>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                        <h3>Why roll the die?</h3>
-                            <p>Rolling the die could have three results:<br>
-                                Blank: nothing happens.<br>
-                                Chaos: chaos ability triggers.<br>
-                                Planechase: planes change.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+						<h3>How to play</h3>
+							<p>On your turn, roll the die.<br> One may role again <br>
+							Cost is one extra mana per roll:<br>
+							<h4>cost = rolls - 1<h4><br>
+						</p>
+						</div>
+						<div class="col-md-6 col-sm-12">
+						<h3>Why roll the die?</h3>
+							<p>Rolling the die could have three results:<br>
+								Blank: nothing happens.<br>
+								Chaos: chaos ability triggers.<br>
+								Planechase: planes change.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     </section>
 
-    
+	
     <!-- Footer -->
     <footer class="text-center">
         <div class="footer-above">
@@ -132,7 +140,7 @@
                             <li>
                                 <a href="https://twitter.com/hackmods" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
                             </li>
-                                                        <li>
+							                            <li>
                                 <a href="http://zxc.us" class="btn-social btn-outline"><i class="fa fa-fw fa-rss"></i></a>
                             </li>
                         </ul>

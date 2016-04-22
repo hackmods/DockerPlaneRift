@@ -84,6 +84,20 @@ def index():
         card_count = redis_store.get('card_count')        
         return render_template('layout.html', card_count=card_count, code=code, turn=turn, card=card)
 
+@page.route('/api')
+def apu():
+    card = 0
+    if request.args.get('code'):
+        code = request.args.get('code')
+        result=db.session.query(PlaneRift).filter_by(code=code).first() 
+        if result is None:
+            card = 0
+        elif result.turn is None:
+            card = 0
+        else:
+            card = result.card
+
+    return render_template('api.html', card=card)
 
 @page.route('/seed')
 def seed():
