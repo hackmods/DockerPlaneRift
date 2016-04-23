@@ -3,9 +3,10 @@
   text-align: center;
 }
 
-img .card{
- max-width: 300px;
-  max-height: 500px;
+.card{
+  width: 100%;
+  max-width: 500px;
+  max-height: 300px;
 }
 
 
