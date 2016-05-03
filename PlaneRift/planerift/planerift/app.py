@@ -87,17 +87,42 @@ def index():
 @page.route('/api')
 def apu():
     card = 0
+
+    if request.args.get('roll'):
+            dice = random.randint(1,6)
+            card = "blank"
+            if dice is 1:
+                card = "Chaos"
+            if dice is 6:
+                card = "PlaneChase"
+            return render_template('api.html', card=card)
+
     if request.args.get('code'):
         code = request.args.get('code')
         result=db.session.query(PlaneRift).filter_by(code=code).first() 
+        
         if result is None:
-            card = 0
+             card = 0
         elif result.turn is None:
             card = 0
         else:
             card = result.card
 
-    return render_template('api.html', card=card)
+        if request.args.get('get'):
+            return render_template('api.html', card=card)
+
+        if request.args.get('set'):
+            result.card = random.randint(1,40)
+            result.turn += 1
+            db.session.commit()
+            return render_template('api.html', card=card)
+
+
+    return render_template('blank.html')
+
+@page.route('/view')
+def view():
+    return render_template('view.html')
 
 @page.route('/seed')
 def seed():
@@ -119,6 +144,12 @@ def seed():
         planerift = PlaneRift(code=code)
         db.session.add(planerift)
         db.session.commit()
+        card_count = redis_store.incr('card_count')
+        result.card = random.randint(1,40)
+        result.turn += 1
+        db.session.commit()
+        turn = result.turn
+        card = result.card
 
     return redirect(url_for('page.index'))
 
