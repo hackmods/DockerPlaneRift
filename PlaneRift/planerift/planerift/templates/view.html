@@ -42,11 +42,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
+                <div class="col-lg-8 col-lg-offset-2" id="result">
                        <!--  <h3><i>{{ code}}  {{turn}}  {{ card }}</i></h3>-->
-                      <img src="{{ url_for('static', filename='img/originalCard/' + card|string  + '.jpg') }}"  alt="PlaneChase Card" class="card"/> 
-                      <h3><i>PlaneChase count: </i></h3>
-                      <a class="btn btn-lrg btn-outline" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>
+                      <img src="{{ url_for('static', filename='img/originalCard/0.jpg') }}"  alt="PlaneChase Card" id="card" class="card"/> 
+                    <br>
+                      <a class="btn btn-lrg btn-outline" href="#" id="roll">Click to change</a>
                       <!--<a class="btn" href="{{ url_for('page.index', code=code,next=True) }}">Click to change</a>-->
                       <!--<a class="btn" href="{{ url_for('page.index', code="zxcv",next=True) }}">Click to change</a>-->
                       <br>
